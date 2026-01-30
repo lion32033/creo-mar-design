@@ -544,7 +544,8 @@
         <h2>Let's Create Together</h2>
         <p class="subtitle">Have a project in mind? We'd love to hear from you.</p>
         
-        <form class="contact-form" id="contactForm" action="https://creo-mar.com/send-email.php" method="POST">
+        <form class="contact-form" id="contactForm" action="https://api.staticforms.xyz/submit" method="POST">
+            <input type="hidden" name="accessKey" value="sf_9n3ei89d43bj7fl5mlfn5nc1">
             <div class="form-group">
                 <label for="name">Name *</label>
                 <input type="text" id="name" name="name" required>
@@ -798,61 +799,6 @@
                     validateField(field);
                 }
             });
-        });
-
-        // Form submission with AJAX
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Get form fields
-            const nameField = document.getElementById('name');
-            const emailField = document.getElementById('email');
-            const messageField = document.getElementById('message');
-            
-            // Validate all fields
-            const isNameValid = validateField(nameField);
-            const isEmailValid = validateField(emailField);
-            const isMessageValid = validateField(messageField);
-            
-            if (!isNameValid || !isEmailValid || !isMessageValid) {
-                return;
-            }
-            
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            
-            // Prepare form data
-            const formData = new FormData(contactForm);
-            
-            try {
-                const response = await fetch('send-email.php', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    formMessage.className = 'form-message success';
-                    formMessage.textContent = result.message;
-                    contactForm.reset();
-                } else {
-                    formMessage.className = 'form-message error';
-                    formMessage.textContent = result.message;
-                }
-            } catch (error) {
-                formMessage.className = 'form-message error';
-                formMessage.textContent = 'Sorry, there was an error sending your message. Please try again later.';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-                
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 5000);
-            }
         });
 
         // Smooth scroll offset for fixed navbar
